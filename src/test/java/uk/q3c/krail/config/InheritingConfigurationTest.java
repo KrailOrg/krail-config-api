@@ -14,7 +14,6 @@ package uk.q3c.krail.config;
 
 import com.google.inject.Inject;
 import com.mycila.testing.junit.MycilaJunitRunner;
-import com.mycila.testing.plugin.guice.GuiceContext;
 import org.apache.commons.configuration.BaseConfiguration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalINIConfiguration;
@@ -24,11 +23,11 @@ import org.junit.runner.RunWith;
 import uk.q3c.util.testutil.TestResource;
 
 import java.io.File;
+import java.net.URISyntaxException;
 
 import static org.assertj.core.api.Assertions.*;
 
 @RunWith(MycilaJunitRunner.class)
-@GuiceContext({})
 public class InheritingConfigurationTest {
 
     @Inject
@@ -38,7 +37,7 @@ public class InheritingConfigurationTest {
     private HierarchicalINIConfiguration config3;
 
     @Test
-    public void override() throws ConfigurationException {
+    public void override() throws ConfigurationException, URISyntaxException {
 
         // given
         config1 = config("config1.ini");
@@ -70,17 +69,15 @@ public class InheritingConfigurationTest {
 
     }
 
-    private HierarchicalINIConfiguration config(String filename) throws ConfigurationException {
-        File root = TestResource.testJavaRootDir("krail");
-        File dir = new File(root, "uk/q3c/krail/core/config");
-        File file = new File(dir, filename);
+    private HierarchicalINIConfiguration config(String filename) throws ConfigurationException, URISyntaxException {
+
+        File file = TestResource.resource(this, filename);
         System.out.println(file.getAbsolutePath());
-        HierarchicalINIConfiguration config = new HierarchicalINIConfiguration(file);
-        return config;
+        return new HierarchicalINIConfiguration(file);
     }
 
     @Test
-    public void getSection() throws ConfigurationException {
+    public void getSection() throws ConfigurationException, URISyntaxException {
 
         // given
         config1 = config("config1.ini");
@@ -97,7 +94,7 @@ public class InheritingConfigurationTest {
     }
 
     @Test
-    public void getSection_sectionNameNotPresent() throws ConfigurationException {
+    public void getSection_sectionNameNotPresent() throws ConfigurationException, URISyntaxException {
 
         // given
         config1 = config("config1.ini");
