@@ -46,7 +46,7 @@ sourceCompatibility = '1.8'
 ext.assertjVersion = '3.3.0'
 
 kaytee {
-    baseVersion = "0.9.0.2"
+    baseVersion = "0.10.0.0"
 }
 
 bintray {
