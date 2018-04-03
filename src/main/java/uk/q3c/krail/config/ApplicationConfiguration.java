@@ -16,10 +16,12 @@ package uk.q3c.krail.config;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.SubnodeConfiguration;
 
+import java.io.Serializable;
+
 /**
  * Created by David Sowerby on 15 Jan 2016
  */
-public interface ApplicationConfiguration extends Configuration {
+public interface ApplicationConfiguration extends Configuration, Serializable {
 
 
     void addConfiguration(Configuration config);
