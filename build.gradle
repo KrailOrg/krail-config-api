@@ -12,7 +12,7 @@
  */
 buildscript {
     ext.kotlin_version = '1.2.31'
-    ext.kaytee_plugin_version = "0.18.10.0"
+    ext.kaytee_plugin_version = "0.20.1.0"
     repositories {
         jcenter()
     }
@@ -45,7 +45,7 @@ ext.assertjVersion = '3.3.0'
 
 kaytee {
     version{
-        number = "0.10.5.0"
+        number = "0.10.4.0"
     }
 }
 
@@ -55,7 +55,7 @@ bintray {
 
 dependencies {
 //
-    compile 'uk.q3c.krail:krail-service-api:0.13.0.0'
+    compile 'uk.q3c.krail:krail-service-api:0.14.0.0'
     compile 'commons-configuration:commons-configuration:1.10'
     testCompile 'org.assertj:assertj-core:' + assertjVersion
     testCompile 'junit:junit:4.12'
@@ -73,5 +73,5 @@ idea {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.4.1'
+    gradleVersion = '4.2.1'
 }
