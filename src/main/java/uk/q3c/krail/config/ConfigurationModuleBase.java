@@ -12,13 +12,13 @@
  */
 package uk.q3c.krail.config;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.multibindings.MapBinder;
-import uk.q3c.krail.service.AbstractServiceModule;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A base class to define configuration files to be loaded into a {@link InheritingConfiguration} (for example
@@ -35,7 +35,7 @@ import static com.google.common.base.Preconditions.*;
  *
  * @author David Sowerby
  */
-public abstract class ConfigurationModuleBase extends AbstractServiceModule {
+public abstract class ConfigurationModuleBase extends AbstractModule {
     private MapBinder<Integer, IniFileConfig> iniFileConfigs;
     private Map<Integer, IniFileConfig> prepIniFileConfigs = new HashMap<>();
 
@@ -49,7 +49,6 @@ public abstract class ConfigurationModuleBase extends AbstractServiceModule {
 
     @Override
     protected void configure() {
-        super.configure();
         iniFileConfigs = MapBinder.newMapBinder(binder(), Integer.class, IniFileConfig.class);
         bindConfigs();
     }

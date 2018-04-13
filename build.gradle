@@ -45,7 +45,7 @@ ext.assertjVersion = '3.3.0'
 
 kaytee {
     version{
-        number = "0.10.5.0"
+        number = "0.10.6.0"
     }
 }
 
@@ -55,7 +55,7 @@ bintray {
 
 dependencies {
 //
-    compile 'uk.q3c.krail:krail-service-api:0.14.0.0'
+    compile 'uk.q3c.krail:krail-service-api:0.15.0.0'
     compile 'commons-configuration:commons-configuration:1.10'
     testCompile 'org.assertj:assertj-core:' + assertjVersion
     testCompile 'junit:junit:4.12'
