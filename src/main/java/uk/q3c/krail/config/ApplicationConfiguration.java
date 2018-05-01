@@ -13,6 +13,7 @@
 
 package uk.q3c.krail.config;
 
+import org.apache.commons.configuration.AbstractConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.SubnodeConfiguration;
 
@@ -23,8 +24,7 @@ import java.io.Serializable;
  */
 public interface ApplicationConfiguration extends Configuration, Serializable {
 
-
-    void addConfiguration(Configuration config);
+    void addConfiguration(AbstractConfiguration config);
 
     int getNumberOfConfigurations();
 
