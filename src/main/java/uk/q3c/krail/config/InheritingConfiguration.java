@@ -13,25 +13,30 @@
 package uk.q3c.krail.config;
 
 import com.google.inject.Inject;
+import org.apache.commons.configuration.CombinedConfiguration;
 import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.HierarchicalINIConfiguration;
 import org.apache.commons.configuration.SubnodeConfiguration;
 
-import static com.google.common.base.Preconditions.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Changes the standard behaviour of {@link CompositeConfiguration}, so that the configurations can be overridden by a
+ * Changes the standard behaviour of {@link CombinedConfiguration}, so that the configurations can be overridden by a
  * configuration added later. So for example, config1 is added first and contains a property "a.k1=1" and config2 is
  * then added with a property "a.k1=2", then a value of 2 will be returned by a call to <i>getProperty("a.k1")</i>
  * <p/>
- * A change to the in-memory configuration (by using {@link CompositeConfiguration#setProperty(String, Object))} will
- * always take precedence, even if another configuration is added after setProperty has been called
  *
+ * The behaviour of this class has changed in order to make it Serializable - originally it was sub-classed
+ * from {@link CompositeConfiguration}, but that was not Serializable.  {@link CombinedConfiguration}, is Serializable,
+ * but does not use a memory layer
+
+ *
+ * @author David Sowerby 02 May 2018
  * @author David Sowerby
  */
 
-public class InheritingConfiguration extends CompositeConfiguration {
+public class InheritingConfiguration extends CombinedConfiguration {
 
     @Inject
     protected InheritingConfiguration() {
@@ -58,7 +63,7 @@ public class InheritingConfiguration extends CompositeConfiguration {
 
     /**
      * Returns the source (the configuration object) actually used to fulfil the value of {@code key}, or null if there
-     * is no matching key. This is different to the {@link CompositeConfiguration#getSource(String)} behaviour.
+     * is no matching key. This is different to the {@link CombinedConfiguration#getSource(String)} behaviour.
      *
      * @param key the property key to look for
      * @return the Configuration object used to provide the value for the key, or null if the key is not found
@@ -80,10 +85,12 @@ public class InheritingConfiguration extends CompositeConfiguration {
     /**
      * Returns a section specified by {@code sectionName}, or null if none exists. Sections are recognised only be
      * {@link HierarchicalINIConfiguration}, and any other type of configuration contained within this composite will
-     * be
-     * ignored.
+     * be ignored.
      *
-     * @param sectionName the sectioName to return
+     * There is a bug in this - it returns the first section it finds that matches {@code name}.  It should return a merge
+     * of all appropriate configs, see https://github.com/KrailOrg/krail-config-api/issues/3
+     *
+     * @param sectionName the sectionName to return
      * @return the section if found, null if not
      */
     public SubnodeConfiguration getSection(String sectionName) {

@@ -1,6 +1,6 @@
 /*
  *
- *  * Copyright (c) 2016. David Sowerby
+ *  * Copyright (c) 2018. David Sowerby
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  *  * the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -11,7 +11,7 @@
  *
  */
 buildscript {
-    ext.kotlin_version = '1.2.31'
+    ext.kotlin_version = '1.2.41'
     ext.kaytee_plugin_version = "0.20.1.0"
     repositories {
         jcenter()
@@ -20,6 +20,7 @@ buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "uk.q3c.kaytee:kaytee-plugin:$kaytee_plugin_version"
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.3'
     }
 }
 
@@ -31,6 +32,7 @@ group = 'uk.q3c.krail'
 
 apply plugin: 'uk.q3c.kaytee'
 apply plugin: "kotlin"
+apply from : "gradle/spek.gradle"
 
 repositories {
     jcenter()
@@ -45,7 +47,7 @@ ext.assertjVersion = '3.3.0'
 
 kaytee {
     version{
-        number = "0.10.7.0"
+        number = "0.11.0.0"
     }
 }
 
@@ -54,15 +56,9 @@ bintray {
 }
 
 dependencies {
-//
     compile 'uk.q3c.krail:krail-service-api:0.15.3.0'
     compile 'commons-configuration:commons-configuration:1.10'
-    testCompile 'org.assertj:assertj-core:' + assertjVersion
-    testCompile 'junit:junit:4.12'
     testCompile 'uk.q3c.util:q3c-testutils:0.11.0.4'
-    testCompile 'com.mycila.testing.plugins:mycila-testing-mockito:2.8'
-    testCompile 'com.mycila:mycila-guice:2.10.ga'
-    testCompile 'com.mycila.testing.plugins:mycila-testing-guice:2.8'
 }
 
 idea {
@@ -73,5 +69,5 @@ idea {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.2.1'
+    gradleVersion = '4.4.1'
 }
