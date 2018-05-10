@@ -46,6 +46,9 @@ sourceCompatibility = '1.8'
 ext.assertjVersion = '3.3.0'
 
 kaytee {
+    unitTest {
+        enabled = false // there are no tests
+    }
     version{
         number = "0.12.0.0"
     }
