@@ -10,23 +10,19 @@
  *  * specific language governing permissions and limitations under the License.
  *
  */
+package uk.q3c.krail.config
 
-package uk.q3c.krail.config;
+import org.apache.commons.configuration2.CombinedConfiguration
+import org.apache.commons.configuration2.Configuration
 
-import org.apache.commons.configuration.AbstractConfiguration;
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.SubnodeConfiguration;
 
-import java.io.Serializable;
+class InheritingConfiguration : CombinedConfiguration() {
 
-/**
- * Created by David Sowerby on 15 Jan 2016
- */
-public interface ApplicationConfiguration extends Configuration, Serializable {
+    fun addConfigurationSet(configs: List<NamedConfiguration>) {
+        configs.reversed().forEach({ nc -> super.addConfiguration(nc.configuration, nc.name) })
+    }
 
-    void addConfiguration(AbstractConfiguration config);
 
-    int getNumberOfConfigurations();
-
-    SubnodeConfiguration getSection(String configSectionName);
 }
+
+data class NamedConfiguration(val configuration: Configuration, val name: String)

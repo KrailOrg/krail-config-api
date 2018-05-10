@@ -2,8 +2,8 @@ package uk.q3c.krail.config
 
 import com.google.inject.Guice
 import org.amshove.kluent.shouldEqual
-import org.apache.commons.configuration.ConfigurationException
-import org.apache.commons.configuration.HierarchicalINIConfiguration
+import org.apache.commons.configuration2.INIConfiguration
+import org.apache.commons.lang3.SerializationUtils
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
@@ -18,23 +18,22 @@ import java.net.URISyntaxException
 object InheritingConfigurationTest : Spek({
 
     given("we want second and subsequent configuration layers to override earlier layers") {
-        val ref = uk.q3c.krail.config.ConfigurationException("") // to get classloader
-        val config1: HierarchicalINIConfiguration = config(ref, "config1.ini")
-        val config2: HierarchicalINIConfiguration = config(ref, "config2.ini")
-        val config3: HierarchicalINIConfiguration = config(ref, "config3.ini")
+        val ref = uk.q3c.krail.config.ApplicationConfigurationException("") // to get classloader
+        val config1: INIConfiguration = config(ref, "config1.ini")
+        val config2: INIConfiguration = config(ref, "config2.ini")
+        val config3: INIConfiguration = config(ref, "config3.ini")
         val injector = Guice.createInjector()
 
         lateinit var configuration: InheritingConfiguration
 
         beforeEachTest {
             configuration = injector.getInstance(InheritingConfiguration::class.java)
-        }
-
-        on("loading 3 configs with overlapping properties") {
-
             configuration.addConfiguration(config1)
             configuration.addConfiguration(config2)
             configuration.addConfiguration(config3)
+        }
+
+        on("loading 3 configs with overlapping properties") {
 
 
             it("later configs override earlier") {
@@ -48,16 +47,25 @@ object InheritingConfigurationTest : Spek({
             }
 
         }
+
+        on("serialisation") {
+            SerializationUtils.serialize(configuration)
+
+            it("does not throw exception") {
+
+            }
+
+        }
     }
 
 
 })
 
 
-@Throws(ConfigurationException::class, URISyntaxException::class)
-private fun config(ref: Any, filename: String): HierarchicalINIConfiguration {
+@Throws(ApplicationConfigurationException::class, URISyntaxException::class)
+private fun config(ref: Any, filename: String): INIConfiguration {
 
     val file = TestResource.resource(ref, filename)
     println(file!!.absolutePath)
-    return HierarchicalINIConfiguration(file)
+    return INIConfiguration(file)
 }

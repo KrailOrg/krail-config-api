@@ -10,15 +10,11 @@
  *  * specific language governing permissions and limitations under the License.
  *
  */
-package uk.q3c.krail.config;
+package uk.q3c.krail.config
 
-public class ConfigurationException extends RuntimeException {
+class ApplicationConfigurationException : RuntimeException {
 
-    public ConfigurationException(String message) {
-        super(message);
-    }
+    constructor(message: String) : super(message)
 
-    public ConfigurationException(String message, Throwable cause) {
-        super(message, cause);
-    }
+    constructor(message: String, cause: Throwable) : super(message, cause)
 }
