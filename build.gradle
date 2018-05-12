@@ -50,7 +50,7 @@ kaytee {
         enabled = false // there are no tests
     }
     version{
-        number = "0.12.0.0"
+        number = "0.12.1.0"
     }
 }
 
@@ -59,7 +59,7 @@ bintray {
 }
 
 dependencies {
-    compile 'uk.q3c.krail:krail-service-api:0.15.3.0'
+    compile 'uk.q3c.krail:krail-service-api:0.15.4.0'
     compile group: 'org.apache.commons', name: 'commons-configuration2', version: '2.2'
     testCompile 'uk.q3c.util:q3c-testutils:0.11.0.4'
 }
